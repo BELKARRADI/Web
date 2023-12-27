@@ -1,0 +1,122 @@
+<div>
+  <h2 id="page-heading" data-cy="PWHeading">
+    <span jhiTranslate="profEtudiantApp.pW.home.title">PWS</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-success btn-sm me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="profEtudiantApp.pW.home.refreshListLabel">Actualiser la liste</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-secondary btn-sm jh-create-entity create-pw"
+        [routerLink]="['/pw/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="profEtudiantApp.pW.home.createLabel">Créer un nouveau PW</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="pWS?.length === 0">
+    <span jhiTranslate="profEtudiantApp.pW.home.notFound">Aucun PW trouvé</span>
+  </div>
+
+  <div class="table-responsive table-bordered" id="entities" *ngIf="pWS && pWS.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="title">
+            <div class="d-flex">
+              <span jhiTranslate="profEtudiantApp.pW.title">Title</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="objectif">
+            <div class="d-flex">
+              <span jhiTranslate="profEtudiantApp.pW.objectif">Objectif</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="docs">
+            <div class="d-flex">
+              <span jhiTranslate="profEtudiantApp.pW.docs">Docs</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="tooth.name">
+            <div class="d-flex">
+              <span jhiTranslate="profEtudiantApp.pW.tooth">Tooth</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="groupe.code">
+            <div class="d-flex">
+              <span jhiTranslate="profEtudiantApp.pW.groupe">Groupe</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex justify-content-center">
+              <span>Action</span>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pW of pWS; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/pw', pW.id, 'view']">{{ pW.id }}</a>
+          </td>
+          <td>{{ pW.title }}</td>
+          <td>{{ pW.objectif }}</td>
+          <td>
+            <a *ngIf="pW.docs" (click)="openFile(pW.docs, pW.docsContentType)" jhiTranslate="entity.action.open">Ouvrir</a>
+            <span *ngIf="pW.docs">{{ pW.docsContentType }}, {{ byteSize(pW.docs) }}</span>
+          </td>
+          <td>
+            <div *ngIf="pW.tooth">
+              <a [routerLink]="['/tooth', pW.tooth.id, 'view']">{{ pW.tooth.name }}</a>
+            </div>
+          </td>
+          <td>
+            <span *ngFor="let groupe of pW.groupes; let last = last">
+              <a class="form-control-static" [routerLink]="['/groupe', groupe.id, 'view']">{{ groupe.code }}</a
+              >{{ last ? '' : ', ' }}
+            </span>
+          </td>
+          <td class="text-end">
+            <div class="d-flex justify-content-center">
+              <a [routerLink]="['/pw', pW.id, 'view']" class="btn btn-outline-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Voir</span>
+              </a>
+
+              <a [routerLink]="['/pw', pW.id, 'edit']" class="btn btn-outline-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editer</span>
+              </a>
+
+              <button type="submit" (click)="delete(pW)" class="btn btn-outline-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Supprimer</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

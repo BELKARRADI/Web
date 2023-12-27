@@ -1,0 +1,103 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-pw-heading" data-cy="PWCreateUpdateHeading" jhiTranslate="profEtudiantApp.pW.home.createOrEditLabel">
+        Créer ou éditer un PW
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.pW.title" for="field_title">Title</label>
+          <input type="text" class="form-control" name="title" id="field_title" data-cy="title" formControlName="title" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.pW.objectif" for="field_objectif">Objectif</label>
+          <input type="text" class="form-control" name="objectif" id="field_objectif" data-cy="objectif" formControlName="objectif" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.pW.docs" for="field_docs">Docs</label>
+          <div>
+            <div *ngIf="editForm.get('docs')!.value" class="form-text text-danger clearfix">
+              <a
+                class="pull-start"
+                (click)="openFile(editForm.get('docs')!.value!, editForm.get('docsContentType')!.value!)"
+                jhiTranslate="entity.action.open"
+                >Ouvrir</a
+              ><br />
+              <span class="pull-start">{{ editForm.get('docsContentType')!.value }}, {{ byteSize(editForm.get('docs')!.value!) }}</span>
+              <button
+                type="button"
+                (click)="editForm.patchValue({ docs: undefined, docsContentType: undefined })"
+                class="btn btn-secondary btn-xs pull-end"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file_docs"
+              data-cy="docs"
+              (change)="setFileData($event, 'docs', false)"
+              jhiTranslate="entity.action.addblob"
+            />
+          </div>
+          <input type="hidden" class="form-control" name="docs" id="field_docs" data-cy="docs" formControlName="docs" />
+          <input type="hidden" class="form-control" name="docsContentType" id="field_docsContentType" formControlName="docsContentType" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.pW.tooth" for="field_tooth">Tooth</label>
+          <select class="form-control" id="field_tooth" data-cy="tooth" name="tooth" formControlName="tooth" [compareWith]="compareTooth">
+            <option *ngIf="editForm.get(['tooth'])!.value == null" [ngValue]="null" selected></option>
+            <option [ngValue]="toothOption" *ngFor="let toothOption of teethSharedCollection">{{ toothOption.name }}</option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['tooth'])!.invalid && (editForm.get(['tooth'])!.dirty || editForm.get(['tooth'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['tooth'])?.errors?.required" jhiTranslate="entity.validation.required"
+            >Ce champ est obligatoire.</small
+          >
+        </div>
+
+        <div class="mb-3">
+          <label jhiTranslate="profEtudiantApp.pW.groupe" for="field_groupes">Groupe</label>
+          <select
+            class="form-control"
+            id="field_groupes"
+            data-cy="groupe"
+            multiple
+            name="groupes"
+            formControlName="groupes"
+            [compareWith]="compareGroupe"
+          >
+            <option [ngValue]="groupeOption" *ngFor="let groupeOption of groupesSharedCollection">{{ groupeOption.code }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Annuler</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Sauvegarder</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

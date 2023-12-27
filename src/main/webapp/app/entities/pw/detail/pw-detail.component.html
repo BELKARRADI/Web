@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="pW">
+      <h2 data-cy="pWDetailsHeading"><span jhiTranslate="profEtudiantApp.pW.detail.title">PW</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ pW.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="profEtudiantApp.pW.title">Title</span></dt>
+        <dd>
+          <span>{{ pW.title }}</span>
+        </dd>
+        <dt><span jhiTranslate="profEtudiantApp.pW.objectif">Objectif</span></dt>
+        <dd>
+          <span>{{ pW.objectif }}</span>
+        </dd>
+        <dt><span jhiTranslate="profEtudiantApp.pW.docs">Docs</span></dt>
+        <dd>
+          <div *ngIf="pW.docs">
+            <a (click)="openFile(pW.docs, pW.docsContentType)" jhiTranslate="entity.action.open">Ouvrir</a>
+            {{ pW.docsContentType }}, {{ byteSize(pW.docs) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="profEtudiantApp.pW.tooth">Tooth</span></dt>
+        <dd>
+          <div *ngIf="pW.tooth">
+            <a [routerLink]="['/tooth', pW.tooth.id, 'view']">{{ pW.tooth.name }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="profEtudiantApp.pW.groupe">Groupe</span></dt>
+        <dd>
+          <span *ngFor="let groupe of pW.groupes; let last = last">
+            <a [routerLink]="['/groupe', groupe.id, 'view']">{{ groupe.code }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Retour</span>
+      </button>
+
+      <button type="button" [routerLink]="['/pw', pW.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editer</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,91 @@
+<div>
+  <h2 id="page-heading" data-cy="ProfessorHeading">
+    <span jhiTranslate="profEtudiantApp.professor.home.title">Professors</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-success btn-sm me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="profEtudiantApp.professor.home.refreshListLabel">Actualiser la liste</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-secondary btn-sm jh-create-entity create-professor"
+        [routerLink]="['/professor/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="profEtudiantApp.professor.home.createLabel">Créer un nouveau Professor</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="professors?.length === 0">
+    <span jhiTranslate="profEtudiantApp.professor.home.notFound">Aucun Professor trouvé</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="professors && professors.length > 0">
+    <table class="table table-bordered" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="grade">
+            <div class="d-flex">
+              <span jhiTranslate="profEtudiantApp.professor.grade">Grade</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="user.login">
+            <div class="d-flex">
+              <span jhiTranslate="profEtudiantApp.professor.user">User</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex justify-content-center">
+              <span>Action</span>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let professor of professors; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/professor', professor.id, 'view']">{{ professor.id }}</a>
+          </td>
+          <td>{{ professor.grade }}</td>
+          <td>
+            {{ professor.user?.login }}
+          </td>
+          <td class="text-end">
+            <div class="d-flex justify-content-center">
+              <a [routerLink]="['/professor', professor.id, 'view']" class="btn btn-outline-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Voir</span>
+              </a>
+
+              <a [routerLink]="['/professor', professor.id, 'edit']" class="btn btn-outline-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editer</span>
+              </a>
+
+              <button type="submit" (click)="delete(professor)" class="btn btn-outline-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Supprimer</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

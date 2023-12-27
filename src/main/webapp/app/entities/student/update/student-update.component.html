@@ -1,0 +1,117 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-student-heading" data-cy="StudentCreateUpdateHeading" jhiTranslate="profEtudiantApp.student.home.createOrEditLabel">
+        Créer ou éditer un Student
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.student.number" for="field_number">Number</label>
+          <input type="text" class="form-control" name="number" id="field_number" data-cy="number" formControlName="number" />
+          <div *ngIf="editForm.get('number')!.invalid && (editForm.get('number')!.dirty || editForm.get('number')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('number')?.errors?.required" jhiTranslate="entity.validation.required"
+              >Ce champ est obligatoire.</small
+            >
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.student.cne" for="field_cne">Cne</label>
+          <input type="text" class="form-control" name="cne" id="field_cne" data-cy="cne" formControlName="cne" />
+          <div *ngIf="editForm.get('cne')!.invalid && (editForm.get('cne')!.dirty || editForm.get('cne')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('cne')?.errors?.required" jhiTranslate="entity.validation.required"
+              >Ce champ est obligatoire.</small
+            >
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.student.cin" for="field_cin">Cin</label>
+          <input type="text" class="form-control" name="cin" id="field_cin" data-cy="cin" formControlName="cin" />
+          <div *ngIf="editForm.get('cin')!.invalid && (editForm.get('cin')!.dirty || editForm.get('cin')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('cin')?.errors?.required" jhiTranslate="entity.validation.required"
+              >Ce champ est obligatoire.</small
+            >
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.student.birthDay" for="field_birthDay">Birth Day</label>
+          <div class="input-group">
+            <input
+              id="field_birthDay"
+              data-cy="birthDay"
+              type="text"
+              class="form-control"
+              name="birthDay"
+              ngbDatepicker
+              #birthDayDp="ngbDatepicker"
+              formControlName="birthDay"
+            />
+            <button type="button" class="btn btn-secondary" (click)="birthDayDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </div>
+          <div *ngIf="editForm.get('birthDay')!.invalid && (editForm.get('birthDay')!.dirty || editForm.get('birthDay')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('birthDay')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+              >Ce champ est obligatoire.</small
+            >
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.student.user" for="field_user">User</label>
+          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
+            <option *ngIf="!editForm.get('user')!.value" [ngValue]="null" selected></option>
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.login }}</option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['user'])!.invalid && (editForm.get(['user'])!.dirty || editForm.get(['user'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['user'])?.errors?.required" jhiTranslate="entity.validation.required"
+            >Ce champ est obligatoire.</small
+          >
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.student.groupe" for="field_groupe">Groupe</label>
+          <select
+            class="form-control"
+            id="field_groupe"
+            data-cy="groupe"
+            name="groupe"
+            formControlName="groupe"
+            [compareWith]="compareGroupe"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="groupeOption" *ngFor="let groupeOption of groupesSharedCollection">{{ groupeOption.code }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Annuler</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Sauvegarder</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

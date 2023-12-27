@@ -1,0 +1,23 @@
+{
+  "applications": "*",
+  "changelogDate": "20231223141505",
+  "entityTableName": "tooth",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    }
+  ],
+  "name": "Tooth",
+  "relationships": [
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "pW",
+      "otherEntityRelationshipName": "tooth",
+      "relationshipName": "pw",
+      "relationshipSide": "right",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no"
+}

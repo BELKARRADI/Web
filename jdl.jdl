@@ -1,0 +1,45 @@
+entity Professor {
+    grade String
+}
+entity Student {
+    number String required
+    cne String required
+    cin String required
+    birthDay LocalDate required
+}
+entity Groupe {
+    code String
+    year String
+}
+entity Tooth {
+    name String
+}
+entity PW {
+    title String
+    objectif String
+    docs AnyBlob
+}
+entity StudentPW {
+    imageFront ImageBlob
+    imageSide ImageBlob
+    date LocalDate
+    mesureAngle1 String
+    mesureAngle2 String
+    intersection String
+}
+relationship ManyToOne {
+    Groupe{professor required} to Professor{groupe(code)}
+    StudentPW{student required} to Student
+    StudentPW{pw(title) required} to PW
+    PW{tooth(name) required} to Tooth{pw(title)}
+    Student{groupe(code)} to Groupe{students}
+}
+relationship ManyToMany {
+    PW{groupe(code)} to Groupe{pw(title)}
+}
+
+
+relationship OneToOne {
+Professor{user(login) required} to User with builtInEntity
+    Student{user(login) required} to User  with builtInEntity
+}

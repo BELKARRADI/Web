@@ -1,0 +1,216 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-student-pw-heading"
+        data-cy="StudentPWCreateUpdateHeading"
+        jhiTranslate="profEtudiantApp.studentPW.home.createOrEditLabel"
+      >
+        Créer ou éditer un Student PW
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.studentPW.time" for="field_time">Time</label>
+          <input type="text" class="form-control" name="time" id="field_time" data-cy="time" formControlName="time" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.studentPW.imageFront" for="field_imageFront">Image Front</label>
+          <div>
+            <img
+              [src]="'data:' + editForm.get('imageFrontContentType')!.value + ';base64,' + editForm.get('imageFront')!.value"
+              style="max-height: 100px"
+              *ngIf="editForm.get('imageFront')!.value"
+              alt="studentPW image"
+            />
+            <div *ngIf="editForm.get('imageFront')!.value" class="form-text text-danger clearfix">
+              <span class="pull-start"
+                >{{ editForm.get('imageFrontContentType')!.value }}, {{ byteSize(editForm.get('imageFront')!.value!) }}</span
+              >
+              <button
+                type="button"
+                (click)="clearInputImage('imageFront', 'imageFrontContentType', 'file_imageFront')"
+                class="btn btn-secondary btn-xs pull-end"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file_imageFront"
+              data-cy="imageFront"
+              (change)="setFileData($event, 'imageFront', true)"
+              accept="image/*"
+              jhiTranslate="entity.action.addimage"
+            />
+          </div>
+          <input
+            type="hidden"
+            class="form-control"
+            name="imageFront"
+            id="field_imageFront"
+            data-cy="imageFront"
+            formControlName="imageFront"
+          />
+          <input
+            type="hidden"
+            class="form-control"
+            name="imageFrontContentType"
+            id="field_imageFrontContentType"
+            formControlName="imageFrontContentType"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.studentPW.imageSide" for="field_imageSide">Image Side</label>
+          <div>
+            <img
+              [src]="'data:' + editForm.get('imageSideContentType')!.value + ';base64,' + editForm.get('imageSide')!.value"
+              style="max-height: 100px"
+              *ngIf="editForm.get('imageSide')!.value"
+              alt="studentPW image"
+            />
+            <div *ngIf="editForm.get('imageSide')!.value" class="form-text text-danger clearfix">
+              <span class="pull-start"
+                >{{ editForm.get('imageSideContentType')!.value }}, {{ byteSize(editForm.get('imageSide')!.value!) }}</span
+              >
+              <button
+                type="button"
+                (click)="clearInputImage('imageSide', 'imageSideContentType', 'file_imageSide')"
+                class="btn btn-secondary btn-xs pull-end"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file_imageSide"
+              data-cy="imageSide"
+              (change)="setFileData($event, 'imageSide', true)"
+              accept="image/*"
+              jhiTranslate="entity.action.addimage"
+            />
+          </div>
+          <input type="hidden" class="form-control" name="imageSide" id="field_imageSide" data-cy="imageSide" formControlName="imageSide" />
+          <input
+            type="hidden"
+            class="form-control"
+            name="imageSideContentType"
+            id="field_imageSideContentType"
+            formControlName="imageSideContentType"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.studentPW.date" for="field_date">Date</label>
+          <div class="input-group">
+            <input
+              id="field_date"
+              data-cy="date"
+              type="text"
+              class="form-control"
+              name="date"
+              ngbDatepicker
+              #dateDp="ngbDatepicker"
+              formControlName="date"
+            />
+            <button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.studentPW.mesureAngle1" for="field_mesureAngle1">Mesure Angle 1</label>
+          <input
+            type="text"
+            class="form-control"
+            name="mesureAngle1"
+            id="field_mesureAngle1"
+            data-cy="mesureAngle1"
+            formControlName="mesureAngle1"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.studentPW.mesureAngle2" for="field_mesureAngle2">Mesure Angle 2</label>
+          <input
+            type="text"
+            class="form-control"
+            name="mesureAngle2"
+            id="field_mesureAngle2"
+            data-cy="mesureAngle2"
+            formControlName="mesureAngle2"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.studentPW.intersection" for="field_intersection">Intersection</label>
+          <input
+            type="text"
+            class="form-control"
+            name="intersection"
+            id="field_intersection"
+            data-cy="intersection"
+            formControlName="intersection"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.studentPW.student" for="field_student">Student</label>
+          <select
+            class="form-control"
+            id="field_student"
+            data-cy="student"
+            name="student"
+            formControlName="student"
+            [compareWith]="compareStudent"
+          >
+            <option *ngIf="!editForm.get('student')!.value" [ngValue]="null" selected></option>
+            <option [ngValue]="studentOption" *ngFor="let studentOption of studentsSharedCollection">{{ studentOption.id }}</option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['student'])!.invalid && (editForm.get(['student'])!.dirty || editForm.get(['student'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['student'])?.errors?.required" jhiTranslate="entity.validation.required"
+            >Ce champ est obligatoire.</small
+          >
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="profEtudiantApp.studentPW.pw" for="field_pw">Pw</label>
+          <select class="form-control" id="field_pw" data-cy="pw" name="pw" formControlName="pw" [compareWith]="comparePW">
+            <option *ngIf="!editForm.get('pw')!.value" [ngValue]="null" selected></option>
+            <option [ngValue]="pWOption" *ngFor="let pWOption of pWSSharedCollection">{{ pWOption.title }}</option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['pw'])!.invalid && (editForm.get(['pw'])!.dirty || editForm.get(['pw'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['pw'])?.errors?.required" jhiTranslate="entity.validation.required"
+            >Ce champ est obligatoire.</small
+          >
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Annuler</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Sauvegarder</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

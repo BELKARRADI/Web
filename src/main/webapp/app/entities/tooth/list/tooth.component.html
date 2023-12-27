@@ -1,0 +1,82 @@
+<div>
+  <h2 id="page-heading" data-cy="ToothHeading">
+    <span jhiTranslate="profEtudiantApp.tooth.home.title">Teeth</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-success btn-sm me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="profEtudiantApp.tooth.home.refreshListLabel">Actualiser la liste</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-secondary btn-sm jh-create-entity create-tooth"
+        [routerLink]="['/tooth/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="profEtudiantApp.tooth.home.createLabel">Créer un nouveau Tooth</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="teeth?.length === 0">
+    <span jhiTranslate="profEtudiantApp.tooth.home.notFound">Aucun Tooth trouvé</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="teeth && teeth.length > 0">
+    <table class="table table-bordered" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="name">
+            <div class="d-flex">
+              <span jhiTranslate="profEtudiantApp.tooth.name">Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex justify-content-center">
+              <span>Action</span>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tooth of teeth; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/tooth', tooth.id, 'view']">{{ tooth.id }}</a>
+          </td>
+          <td>{{ tooth.name }}</td>
+          <td class="text-end">
+            <div class="d-flex justify-content-center">
+              <a [routerLink]="['/tooth', tooth.id, 'view']" class="btn btn-outline-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Voir</span>
+              </a>
+
+              <a [routerLink]="['/tooth', tooth.id, 'edit']" class="btn btn-outline-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editer</span>
+              </a>
+
+              <button type="submit" (click)="delete(tooth)" class="btn btn-outline-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Supprimer</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

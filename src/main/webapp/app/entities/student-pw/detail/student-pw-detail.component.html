@@ -1,0 +1,86 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="studentPW">
+      <h2 data-cy="studentPWDetailsHeading"><span jhiTranslate="profEtudiantApp.studentPW.detail.title">Student PW</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ studentPW.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="profEtudiantApp.studentPW.time">Time</span></dt>
+        <dd>
+          <span>{{ studentPW.time }}</span>
+        </dd>
+        <dt><span jhiTranslate="profEtudiantApp.studentPW.imageFront">Image Front</span></dt>
+        <dd>
+          <div *ngIf="studentPW.imageFront">
+            <a (click)="openFile(studentPW.imageFront, studentPW.imageFrontContentType)">
+              <img
+                [src]="'data:' + studentPW.imageFrontContentType + ';base64,' + studentPW.imageFront"
+                style="max-width: 100%"
+                alt="studentPW image"
+              />
+            </a>
+            {{ studentPW.imageFrontContentType }}, {{ byteSize(studentPW.imageFront) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="profEtudiantApp.studentPW.imageSide">Image Side</span></dt>
+        <dd>
+          <div *ngIf="studentPW.imageSide">
+            <a (click)="openFile(studentPW.imageSide, studentPW.imageSideContentType)">
+              <img
+                [src]="'data:' + studentPW.imageSideContentType + ';base64,' + studentPW.imageSide"
+                style="max-width: 100%"
+                alt="studentPW image"
+              />
+            </a>
+            {{ studentPW.imageSideContentType }}, {{ byteSize(studentPW.imageSide) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="profEtudiantApp.studentPW.date">Date</span></dt>
+        <dd>
+          <span>{{ studentPW.date | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="profEtudiantApp.studentPW.mesureAngle1">Mesure Angle 1</span></dt>
+        <dd>
+          <span>{{ studentPW.mesureAngle1 }}</span>
+        </dd>
+        <dt><span jhiTranslate="profEtudiantApp.studentPW.mesureAngle2">Mesure Angle 2</span></dt>
+        <dd>
+          <span>{{ studentPW.mesureAngle2 }}</span>
+        </dd>
+        <dt><span jhiTranslate="profEtudiantApp.studentPW.intersection">Intersection</span></dt>
+        <dd>
+          <span>{{ studentPW.intersection }}</span>
+        </dd>
+        <dt><span jhiTranslate="profEtudiantApp.studentPW.student">Student</span></dt>
+        <dd>
+          <div *ngIf="studentPW.student">
+            <a [routerLink]="['/student', studentPW.student.id, 'view']">{{ studentPW.student.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="profEtudiantApp.studentPW.pw">Pw</span></dt>
+        <dd>
+          <div *ngIf="studentPW.pw">
+            <a [routerLink]="['/pw', studentPW.pw.id, 'view']">{{ studentPW.pw.title }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Retour</span>
+      </button>
+
+      <button type="button" [routerLink]="['/student-pw', studentPW.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editer</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,123 @@
+<div>
+  <h2 id="page-heading" data-cy="StudentHeading">
+    <span jhiTranslate="profEtudiantApp.student.home.title">Students</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-success btn-sm me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="profEtudiantApp.student.home.refreshListLabel">Actualiser la liste</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-secondary btn-sm jh-create-entity create-student"
+        [routerLink]="['/student/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="profEtudiantApp.student.home.createLabel">Créer un nouveau Student</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="students?.length === 0">
+    <span jhiTranslate="profEtudiantApp.student.home.notFound">Aucun Student trouvé</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="students && students.length > 0">
+    <table class="table table-bordered" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="number">
+            <div class="d-flex">
+              <span jhiTranslate="profEtudiantApp.student.number">Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cne">
+            <div class="d-flex">
+              <span jhiTranslate="profEtudiantApp.student.cne">Cne</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cin">
+            <div class="d-flex">
+              <span jhiTranslate="profEtudiantApp.student.cin">Cin</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="birthDay">
+            <div class="d-flex">
+              <span jhiTranslate="profEtudiantApp.student.birthDay">Birth Day</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="user.login">
+            <div class="d-flex">
+              <span jhiTranslate="profEtudiantApp.student.user">User</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="groupe.code">
+            <div class="d-flex">
+              <span jhiTranslate="profEtudiantApp.student.groupe">Groupe</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex justify-content-center">
+              <span>Action</span>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of students; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/student', student.id, 'view']">{{ student.id }}</a>
+          </td>
+          <td>{{ student.number }}</td>
+          <td>{{ student.cne }}</td>
+          <td>{{ student.cin }}</td>
+          <td>{{ student.birthDay | formatMediumDate }}</td>
+          <td>
+            {{ student.user?.login }}
+          </td>
+          <td>
+            <div *ngIf="student.groupe">
+              <a [routerLink]="['/groupe', student.groupe.id, 'view']">{{ student.groupe.code }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="d-flex justify-content-center">
+              <a [routerLink]="['/student', student.id, 'view']" class="btn btn-outline-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Voir</span>
+              </a>
+
+              <a [routerLink]="['/student', student.id, 'edit']" class="btn btn-outline-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editer</span>
+              </a>
+
+              <button type="submit" (click)="delete(student)" class="btn btn-outline-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Supprimer</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

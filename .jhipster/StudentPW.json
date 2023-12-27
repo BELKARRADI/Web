@@ -1,0 +1,56 @@
+{
+  "applications": "*",
+  "changelogDate": "20231223141705",
+  "entityTableName": "student_pw",
+  "fields": [
+    {
+      "fieldName": "time",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "imageFront",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "imageSide",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "mesureAngle1",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mesureAngle2",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "intersection",
+      "fieldType": "String"
+    }
+  ],
+  "name": "StudentPW",
+  "relationships": [
+    {
+      "otherEntityName": "student",
+      "relationshipName": "student",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "pW",
+      "relationshipName": "pw",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no"
+}
