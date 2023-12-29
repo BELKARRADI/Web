@@ -33,7 +33,7 @@ spring:
       enabled: false
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: ${DATASOURCE_URL}
+    url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${${MYSQLHOST}}?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&createDatabaseIfNotExist=true
     username: ${DATASOURCE_USERNAME}
     password: ${DATASOURCE_PASSWORD}
     hikari:
