@@ -1,6 +1,7 @@
 {
   "generator-jhipster": {
     "applicationType": "monolith",
+    "appsFolders": ["Dental-Taper-Angle-SpringBoot-Angular"],
     "authenticationType": "session",
     "baseName": "ProfEtudiant",
     "buildTool": "maven",
@@ -12,6 +13,7 @@
     "databaseType": "sql",
     "devDatabaseType": "mysql",
     "devServerPort": 4200,
+    "directoryPath": "../",
     "enableGradleEnterprise": null,
     "enableHibernateCache": false,
     "enableSwaggerCodegen": false,
@@ -19,11 +21,13 @@
     "entities": ["Professor", "Student", "Groupe", "Tooth", "PW", "StudentPW"],
     "gradleEnterpriseHost": null,
     "jhipsterVersion": "8.0.0",
+    "jwtSecretKey": "ZDBkZmJkYmFiMjg5OThhYzkxZTA0NGUxMWEzMGMyZWRhMDg2NGI0NTczOTM3NjI3N2ExZDdhN2UwYmFmYzk5ZTI2YjE0M2FmNTAwZGRlM2JmYTVkMDRlNTNiNGQyNDM4NGQyZg==",
     "languages": ["fr", "en"],
     "lastLiquibaseTimestamp": 1703341025000,
     "messageBroker": false,
     "microfrontend": null,
     "microfrontends": [],
+    "monitoring": "no",
     "nativeLanguage": "fr",
     "packageName": "ma.projet",
     "prodDatabaseType": "mysql",
@@ -32,7 +36,7 @@
     "searchEngine": false,
     "serverPort": null,
     "serverSideOptions": [],
-    "serviceDiscoveryType": false,
+    "serviceDiscoveryType": "no",
     "testFrameworks": [],
     "websocket": false,
     "withAdminUi": true
